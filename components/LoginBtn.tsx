@@ -12,8 +12,8 @@ export default function Component() {
   // }
   return (
     <>
-      Not signed in <br />
-      <button onClick={() => {}}>Sign in</button>
+      Not signed in
+      <button onClick={() => {}}>Sign in to write posts</button>
     </>
   )
 }

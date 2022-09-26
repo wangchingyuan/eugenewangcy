@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function Projects() {
     return (
     <div className="grid grid-rows-[auto_auto] p-10 gap-10">
-        <div className="bg-orange-200">
+        <div className="bg-gray-200">
             <Link href="https://www.relivemytrades.com">
                 relivemytrades.com
             </Link>
@@ -12,7 +12,7 @@ export default function Projects() {
                 hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! 
             </h1>
         </div>
-        <div className="bg-blue-200">
+        <div className="bg-gray-200">
             <Link href="https://www.youneedarock.com">
                 youneedarock.com
             </Link>

@@ -6,7 +6,7 @@ import PageLayout from './PageLayout'
 
 
 export default function SiteLayout({ children }:{children:ReactNode}) {
-  return (<div className="h-screen">
+  return (<div className="h-screen overflow-y-auto">
     <Navbar/>
       <PageLayout>
         {children}

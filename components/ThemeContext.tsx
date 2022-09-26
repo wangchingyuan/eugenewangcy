@@ -7,10 +7,10 @@ export const themeMap: {[key: string]: string} = {
 };
 
 const defaultContext = {
-    themeState:'', 
+    themeState:'',
     setTheme:(value: React.SetStateAction<string>) => {},
     setNextTheme:()=>{}
-}; 
+};
 export const ThemeContext = createContext(defaultContext);
 
 export default function ThemeContextProvider({ children }:{children: ReactNode}) {
@@ -22,6 +22,7 @@ export default function ThemeContextProvider({ children }:{children: ReactNode})
             localStorage.setItem('theme', themeMap[prevTheme])
             return themeMap[prevTheme]
         });
+        console.log('setNexTheme ')
     }
 
     return (

@@ -4,7 +4,7 @@ import { themeMap, ThemeContext } from "./ThemeContext";
 
 export default function Navbar() {
 
-  const {themeState, setNextTheme} = React.useContext(ThemeContext);
+  const {themeState, setTheme, setNextTheme} = React.useContext(ThemeContext);
 
   return (
     <div className="bg-gray-300 p-2">
@@ -31,7 +31,7 @@ export default function Navbar() {
         </Link>
 
         <div>
-          <button onClick={()=>setNextTheme()}>Switch-Theme</button>
+          <button onClick={setNextTheme}>Switch-Theme</button>
         </div>
 
       </div>
