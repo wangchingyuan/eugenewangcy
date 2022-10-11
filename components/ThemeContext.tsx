@@ -22,12 +22,11 @@ export default function ThemeContextProvider({ children }:{children: ReactNode})
             localStorage.setItem('theme', themeMap[prevTheme])
             return themeMap[prevTheme]
         });
-        console.log('setNexTheme ')
     }
 
     return (
         <ThemeContext.Provider value={{
-            themeState:themeState, 
+            themeState:themeState,
             setTheme:setTheme,
             setNextTheme:setNextTheme
         }}>
