@@ -1,11 +1,11 @@
 
 import React from "react"
 
-// type PostType = {
-//     title: string,
-//     subtitle: string,
-//     body: string,
-// }
+type PostType = {
+    title: string,
+    subtitle: string,
+    body: string,
+}
 
 
 type PokeType = {
@@ -13,16 +13,18 @@ type PokeType = {
     url: string,
 }
 
-const Component = React.forwardRef( ({ post }:{ post: PokeType}, ref) => {
+const Component = React.forwardRef( ({ post }:{ post: PostType}, ref) => {
 
     const body = (<>
-        <h1>{post.name}</h1>
-        <h3>{post.url}</h3>
+        <h1>post:</h1>
+        <h1>{post.title}</h1>
+        <h3>{post.subtitle}</h3>
     </>)
 
     const postTile = ref 
         ? <div ref={ref} className="bg-gray-200">{body}</div>
         : <div className="bg-gray-200">{body}</div>
+        
 
     return postTile
 

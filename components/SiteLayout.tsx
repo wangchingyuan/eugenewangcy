@@ -33,7 +33,6 @@ export default function SiteLayout({ children }:{children:ReactNode}) {
     <Navbar/>
     <PageLayout>
       {children}
-      
     </PageLayout>
     {/* <Footer/> */}
   </div>

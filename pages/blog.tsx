@@ -2,16 +2,17 @@ import { useSession, signIn, signOut } from "next-auth/react"
 import LoginBtn from "../components/LoginBtn"
 import PostTile from "../components/PostTile";
 import { useState, useRef, useCallback } from "react";
-import usePosts from "../lib/hooks"
+import usePosts from "../hooks/usePostHook"
 
-export default function Blog() {
+
+export default function Blog({ isConnected } : { isConnected : boolean}) {
     
     const [query, setQuery] = useState('')
     const [pageNum, setPageNum] = useState(1)
     const { posts, isLoading, isError, error, hasNextPage } = usePosts(pageNum)
 
     const intObserver = useRef<IntersectionObserver | null>(null);
-    const lastPostRef = useCallback((post) => {
+    const lastPostRef = useCallback((post:Element) => {
         if (isLoading) return
         if (intObserver.current) intObserver.current.disconnect()
         
@@ -25,7 +26,7 @@ export default function Blog() {
         if (post) intObserver.current.observe(post)
     }, [isLoading, hasNextPage]);
 
-    if (isError) return <>error: ${error}</>
+    if (isError) return (<p><>error: {error.message}</></p>)
 
     const handleQuery = (e: React.ChangeEvent<HTMLInputElement>) => {
         console.log('handleQuery callled')
@@ -36,25 +37,39 @@ export default function Blog() {
     const content = posts.map((p, i) => {
         if (posts.length === i + 1) {
             console.log('last post seen')
-            return <PostTile ref={lastPostRef} key={p.name} post={p} />
+            return <PostTile ref={lastPostRef} key={p.title} post={p} />
         }
-        return <PostTile key={p.name} post={p} />
+        return <PostTile key={p.title} post={p} />
     })
 
     return ( 
         <div className="grid grid-rows-[auto_auto] p-10 gap-10">
-            <h1>my blog here</h1>
-
+            <LoginBtn />
             <input type="text" onChange={handleQuery}></input>
-
+            {isConnected && <p>mongodb connected</p>}
             {content}
             {isLoading && <p>currently loading.....</p>}
-            
-            <div>Loading</div>
-            <div>Error</div>
 
-            <LoginBtn />
         </div>
         
     )
 }
+
+
+//  export async function getServerSideProps(context) {
+//     const { client } = await connectToDatabase()
+//     // const { isConnected } = await client.isConnected() // error; mongo driver bug https://www.mongodb.com/community/forums/t/isconnected-not-a-function-in-next-js-app/121429/2
+//     // fix with try/catch & clientPromise
+//     let isConnected;
+//     try {
+//       const client = await clientPromise
+//       isConnected = true;
+//     } catch(e) {
+//       console.log(e);
+//       isConnected = false;
+//     }
+    
+//     return {
+//         props: { isConnected },
+//     }
+//  }

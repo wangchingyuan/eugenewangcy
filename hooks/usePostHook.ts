@@ -2,11 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { getBlogPosts } from "../pages/api/getblogposts";
 
 const usePosts = (pageNum = 1) => {
-    const PokeDefault = { //for testing with poke data
-        name: '',
-        url: '',
-    }
-    const [posts, setPosts] = useState([PokeDefault])
+    const [posts, setPosts] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const [isError, setIsError] = useState(false)
     const [error, setError] = useState({})
