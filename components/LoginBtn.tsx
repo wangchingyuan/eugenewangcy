@@ -1,19 +1,21 @@
-import { useSession, signIn, signOut } from "next-auth/react"
+import { getSession, useSession, signIn, signOut } from "next-auth/react"
 
 export default function Component() {
+  //const session = await getSession({ req })
   const { data: session } = useSession()
   if (session) {
     return (
-      <>
-        Signed in as {session.data} <br />
-        here~
-        {process.env.GITHUB_ID}
-        ~and here
+      <div className="flex justify-between">
+        Signed in as {session.user.name} with role {session.user.role} 
         <button onClick={() => signOut()}>Sign out</button>
-      </>
+      </div>
     )
   }
-  return (
-    <button onClick={() => signIn()}>Sign in to edit posts</button>
+  return (<div className="text-center">
+    <button onClick={() => signIn()}>
+      Sign in to comment / edit
+    </button>
+  </div>
+    
   )
 }

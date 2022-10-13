@@ -1,8 +1,8 @@
-import { useSession, signIn, signOut } from "next-auth/react"
-import LoginBtn from "../components/LoginBtn"
-import PostTile from "../components/PostTile";
+
+import PostTile from "../../components/PostTile";
 import { useState, useRef, useCallback } from "react";
-import usePosts from "../hooks/usePostHook"
+import usePosts from "../../hooks/usePostHook"
+import Link from "next/link";
 
 
 export default function Blog({ isConnected } : { isConnected : boolean}) {
@@ -44,9 +44,13 @@ export default function Blog({ isConnected } : { isConnected : boolean}) {
 
     return ( 
         <div className="grid grid-rows-[auto_auto] p-10 gap-10">
-            <LoginBtn />
-            <input type="text" onChange={handleQuery}></input>
-            {isConnected && <p>mongodb connected</p>}
+            
+            <div className="flex justify-between">
+                <input type="text" onChange={handleQuery} placeholder="Search"/>
+                <Link href="/writepost">write post</Link>
+            </div>
+
+            {/* {isConnected && <p>mongodb connected</p>} */}
             {content}
             {isLoading && <p>currently loading.....</p>}
 
