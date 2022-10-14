@@ -1,4 +1,4 @@
-export function convertToSlug(text:string) {
+export function convertToSlug(text:string|undefined) {
     if (!text) return ''
     return text.toLowerCase()
                .replace(/ /g, '-')

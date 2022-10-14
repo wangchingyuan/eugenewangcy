@@ -16,7 +16,7 @@ export default function SiteLayout({ children }:{children:ReactNode}) {
     const userTheme = localTheme || systemTheme
     setTheme(userTheme)
     console.log('effect used')
-  }, [])
+  }, [setTheme])
 
   // For dynamic classnames, string interpolation doesn't work, always use FULL classnames
   const themeClassname: {[key:string] : string} = {

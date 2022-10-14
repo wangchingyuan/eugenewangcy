@@ -33,25 +33,22 @@ export default async function handler(
 
 	// Save edits of existing post
 	} else if (req.method === 'DELETE') {
-        return;
-		// selected: to avoid changing the _id
-		const selected = (({title, subtitle, body, references, slug}) => (
-			{title, subtitle, body, references, slug}))(req.body)
-		req.body.tags = req.body.tags.replace(/ /g, '').split(',').filter(v=>v)
-		const partsToUpdate = {
-			...selected, 
-			...{tags: req.body.tags},
-			...{edited: new Date()}
-		}
-		console.log('API called; putting..', partsToUpdate);
-		const result = await db.collection('blogPosts')
-			.updateOne(
-				{ title: req.body.title },
-				{ $set : partsToUpdate }, 
-				{ upsert: false },
-			);
-		console.log(`${result.matchedCount} match(s). Updated ${result.modifiedCount}`)
-		res.json({message: `${result.matchedCount} match(s). Updated ${result.modifiedCount}`})
+		const { slug, idx } = req.query
+		console.log('Comm. API ; deleting.. postslug:', slug,'idx:',idx  );
+		const toUnset = {[`comments.${idx}`]:null}
+		const result1 = await db.collection('blogPostComments')
+			.update(
+				{ slug : slug }, 
+				{ $set : toUnset},
+			)
+		console.log(`${result1.matchedCount} matched ${result1.modifiedCount} set to null`)
+
+		const result2 = await db.collection('blogPostComments')
+			.update( 
+				{ slug : slug }, //filter
+				{ $pull : { 'comments':null } }
+			)
+		console.log(`${result2.matchedCount} null found ${result1.modifiedCount} deleted`)
 		
 	// Get posts for main and individual blog page
 	} else {

@@ -1,36 +1,92 @@
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import ReactMarkdown from 'react-markdown';
-import { convertToSlug } from '../util/toSlug';
 import { useSession } from "next-auth/react"
+import { PostCommentsT } from 'my-custom-types';
 
 
-export default function CommentManager({ content, setContent, onSave }) {
+export default function CommentManager(
+    { 
+        content, setContent, onSave, onDelete 
+    } : { 
+        content: PostCommentsT, 
+        setContent: React.Dispatch<React.SetStateAction<PostCommentsT>>
+        onSave: (param:{comment:string})=>{}
+        onDelete: (
+            slug:string,
+            comment: {username:string, comment:string}, 
+            commentIdx:number)=>{}
+    }) {
 
     const { data: session } = useSession()
 
-    const { register, handleSubmit, formState, reset } = useForm({mode: 'onChange' });
+    const { 
+        register, 
+        handleSubmit, 
+        formState, 
+        reset 
+    } = useForm({ defaultValues:{comment:''}, mode: 'onChange' });
   
-    const updateComment = async ( newComment ) => {
-        // if text box not empty?
-        if (newComment){
+    const updateComment = async ( 
+        newComment: {comment:string} 
+    ) => {
+        // if comment isnt empty string and session is valid
+        if (newComment.comment && session?.user?.name){
+            const sessUser = session.user.name ;
             // setState to instantly reflect new comment
-            setContent(prev => [
-                ...prev, 
-                ...[{
-                    ...{username: session.user.name}, 
-                    ...newComment,
-                }]
-            ])
+            setContent((prev: PostCommentsT) => {
+                return {
+                    slug:prev.slug,
+                    comments:[
+                        ...prev.comments,
+                        ...[{
+                            ...{username: sessUser}, 
+                            ...newComment,
+                        }]
+                    ]
+                }
+            })
             onSave(newComment);
         }
     }
+    const deleteComment = async (
+        slug:string,
+        thisComment: {username:string, comment:string}, 
+        commentIdx:number 
+    ) => {
+        console.log('deleteComment called:', slug, thisComment, commentIdx)
+        // setState to instantly reflect new comment
+        setContent((prev: PostCommentsT) => {
+            if (
+                prev.comments[commentIdx] && 
+                prev.comments[commentIdx].username === session?.user?.name
+            ) {
+                const left = prev.comments.slice(0,commentIdx)
+                const right = commentIdx+1 < prev.comments.length
+                    ? prev.comments.slice( commentIdx+1, prev.comments.length)
+                    : []
+                return {slug:prev.slug, comments:[...left, ...right]}
+            }
+            return prev
+        })
+        onDelete(slug, thisComment, commentIdx);
+    }
+
     useEffect(()=>{
         reset({comment:''});
-    },[content])
+    },[content, reset])
 
-    const oldComments = content.map((c) => <p>{c.username}: {c.comment}</p>)
+    
+    const oldComments = content.comments?.map((c,i) => {
+        if (c.username === session?.user.name) {
+            return (<p key={i}>
+                {c.username}: {c.comment} 
+                <button onClick={()=>deleteComment(content.slug, c, i)}>
+                    [deleteMyComment]
+                </button>
+            </p>)
+        }
+        return <p key={i}>{c.username}: {c.comment}</p>
+    })
     return (<>
         <p className="text-center">Comments:</p>
         {oldComments}

@@ -1,7 +1,8 @@
+import { BlogPostT } from 'my-custom-types';
 import Link from 'next/link';
 
 
-export default function PostViewer({ content }) {
+export default function PostViewer({ content } : { content : BlogPostT}) {
 
     //todo: if slug don't exist redirect
 

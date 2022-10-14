@@ -24,7 +24,7 @@ export default function Blog({ isConnected } : { isConnected : boolean}) {
         })
 
         if (post) intObserver.current.observe(post)
-    }, [isLoading, hasNextPage]);
+    }, [isLoading, hasNextPage]);// as React.MutableRefObject<HTMLInputElement>;
 
     if (isError) return (<p><>error: {error.message}</></p>)
 

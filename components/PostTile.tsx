@@ -1,15 +1,11 @@
 
+import { BlogPostT } from "my-custom-types"
 import Link from "next/link"
 import React from "react"
 import { convertToSlug } from "../util/toSlug"
 
-type PostType = {
-    title: string,
-    subtitle: string,
-    body: string,
-}
 
-const Component = React.forwardRef( ({ post }:{ post: PostType}, ref) => {
+const Component = React.forwardRef( ({ post }:{ post: BlogPostT}, ref) => {
     const slug = convertToSlug(post.title)
     const body = (<Link href={`/blog/${post.slug}`}><a>
         <h1>post:</h1>
@@ -20,7 +16,7 @@ const Component = React.forwardRef( ({ post }:{ post: PostType}, ref) => {
     </a></Link>)
 
     const postTile = ref 
-        ? <div ref={ref} className="bg-gray-200">{body}</div>
+        ? <div ref={ref as React.MutableRefObject<HTMLInputElement>} className="bg-gray-200">{body}</div>
         : <div className="bg-gray-200">{body}</div>
         
 
@@ -28,4 +24,5 @@ const Component = React.forwardRef( ({ post }:{ post: PostType}, ref) => {
 
 })
 
+Component.displayName = 'PostTile'
 export default Component

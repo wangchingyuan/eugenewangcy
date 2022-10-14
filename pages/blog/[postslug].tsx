@@ -5,14 +5,16 @@ import CommentManager from "../../components/Comments";
 import LoginBtn from "../../components/LoginBtn";
 import Link from "next/link";
 import { useSession } from "next-auth/react"
+import { BlogPostT, PostCommentsT} from "my-custom-types";
 
 
-export default function viewPost() {
+export default function BlogPost() {
 
     const { data: session } = useSession()
     
-    const [ postContent, setPostContent ] = useState({});
-    const [ commentContent, setCommentContent ] = useState([])
+    const [ postContent, setPostContent ] = useState<BlogPostT>({});
+    const [ commentContent, setCommentContent ] = 
+        useState<PostCommentsT>({slug:'', comments:[]});
 
     const getPost = async (postslug:string) => {
         const res = await fetch(`/api/postsCollection?slug=${postslug}`)
@@ -27,27 +29,29 @@ export default function viewPost() {
     }
 
     const getComments = async (postslug:string) => {
+        console.log('trying to fetch', `/api/commentsCollection?slug=${postslug}`)
         const res = await fetch(`/api/commentsCollection?slug=${postslug}`)
         const content = await res.json()
-        setCommentContent(content[0].comments) 
-        console.log('fetched comments!', res.status, content[0].comments)
+        setCommentContent(content[0]) 
+        console.log('fetched comments!', res.status, content[0])
     }
     
     const router = useRouter();
     useEffect(() => {
         if (!router.isReady) return
-        const { postslug } = router.query
+        let { postslug } = router.query
+        postslug = typeof postslug ==='string'? postslug : ''
         getPost(postslug)
         getComments(postslug)
-    }, [router.isReady])
+    }, [router, router.isReady])
     
     // submit handler for react-hook-form
-    const saveComment = async (comment:{}) => {
+    const saveComment = async (comm:{comment:string}) => {
         console.log('saving comment...')
         const newComment = {
             ...{slug: router.query.postslug},
-            ...{username: session.user.name}, 
-            ...comment,
+            ...{username: session?.user.name}, 
+            ...comm,
         }
         const res = await fetch('/api/commentsCollection', {
             method: 'PUT',
@@ -58,6 +62,18 @@ export default function viewPost() {
         })
         console.log('savedComment!', res)
     }
+    const deleteComment = async (
+            slug:string,
+            comment: {username:string, comment:string}, 
+            commentIdx:number
+        ) => {
+        console.log('deleting comment...')
+        const res = await fetch(
+            `/api/commentsCollection?slug=${slug}&idx=${commentIdx}`, {
+            method: 'DELETE',
+        })
+        console.log('deletedComment!', res)
+    }
 
     return (<>
         <LoginBtn />
@@ -67,7 +83,8 @@ export default function viewPost() {
         <CommentManager 
             content={commentContent} 
             setContent={setCommentContent} 
-            onSave={saveComment}/>
+            onSave={saveComment}
+            onDelete={deleteComment}/>
         <br/>
         <Link href={`/editpost/${postContent.slug}`}>admin edit</Link>
     </>)

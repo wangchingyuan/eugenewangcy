@@ -1,17 +1,11 @@
+import { BlogPostT } from "my-custom-types";
 import { useState, useEffect, useCallback } from "react";
 
 const usePosts = (pageNum = 1) => {
-    type PostT = { 
-        _id: string,
-        title: string,
-        subtitle: string,
-        body:string,
-        references:string,
-    }
     type errorT =  {
         message?: string
     }
-    const [posts, setPosts] = useState<PostT[]>([])
+    const [posts, setPosts] = useState<BlogPostT[]>([])
     const [isLoading, setIsLoading] = useState(false)
     const [isError, setIsError] = useState(false)
     const [error, setError] = useState<errorT>({})

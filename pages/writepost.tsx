@@ -2,7 +2,7 @@ import { useSession, signIn, signOut } from "next-auth/react"
 import LoginBtn from "../components/LoginBtn"
 import PostEditor from "../components/PostEditor";
 
-export default function writepost() {
+export default function WritePost() {
     const { data: session } = useSession()
     if (!session) return <LoginBtn />
 

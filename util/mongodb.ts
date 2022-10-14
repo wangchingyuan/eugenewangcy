@@ -22,11 +22,13 @@ export async function connectToDatabase() {
         return cached.conn
     }
     if (!cached.promise) {
-        const options = {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        }
-        cached.promise = MongoClient.connect(MONGODB_URI, options).then((client) => {
+        // const options = {
+        //     useNewUrlParser: true,
+        //     useUnifiedTopology: true,
+        // }
+        cached.promise = MongoClient.connect(MONGODB_URI?MONGODB_URI:'')
+            .then((client) => {
+
             console.log('mongodb connected')
             return {
                 client,

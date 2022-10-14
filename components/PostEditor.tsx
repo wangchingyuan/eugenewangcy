@@ -1,3 +1,4 @@
+import { BlogPostT } from 'my-custom-types';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -5,7 +6,13 @@ import ReactMarkdown from 'react-markdown';
 import { convertToSlug } from '../util/toSlug';
 
 
-export default function PostEditor({ content, onSave }) {
+export default function PostEditor({ 
+    content, onSave, onDelete 
+} : {
+    content: BlogPostT, 
+    onSave: (param:Object)=>void,
+    onDelete: ()=>void,
+}) {
 
     //todo: if slug don't exist redirect
     const [ slugState, setSlugState ] = useState('')
@@ -15,11 +22,11 @@ export default function PostEditor({ content, onSave }) {
     useEffect(() => {
         if (content) {
             reset(content);
-            setSlugState(content.slug)
+            setSlugState(content.slug? content.slug : "")
         }
-    }, [content]);
+    }, [content, reset]);
 
-    const updatePost = async ( updatedContent ) => {
+    const updatePost = async ( updatedContent:BlogPostT ) => {
         if (updatedContent.title){
             setSlugState(convertToSlug(updatedContent.title))
             await onSave(updatedContent);
@@ -29,8 +36,8 @@ export default function PostEditor({ content, onSave }) {
     return (<>
         <form onSubmit={handleSubmit(updatePost)}>
             {preview && (<div className="card">
-                <ReactMarkdown>{watch('title')}</ReactMarkdown>
-                <ReactMarkdown>{watch('body')}</ReactMarkdown>
+                <ReactMarkdown>{watch('title') || ''}</ReactMarkdown>
+                <ReactMarkdown>{watch('body') || ''}</ReactMarkdown>
             </div>)}
     
             {!preview && ( <div className="flex flex-col">
@@ -59,6 +66,9 @@ export default function PostEditor({ content, onSave }) {
         <div className="flex justify-between">
             <button onClick={() => setPreview(!preview)}>{preview ? 'Edit' : 'Preview'}</button>
             <button><Link href={`/blog/${slugState}`}>Live View (go back)</Link></button>
+        </div>
+        <div className="absolute bottom-0">
+            <button onClick={()=>onDelete()}>delete post</button>
         </div>
     </>);
   }

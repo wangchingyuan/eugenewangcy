@@ -8,9 +8,10 @@ export default function RedirectPage() {
     useEffect(() => {
         //alert(router.query.link); // Alerts 'Someone'
         setTimeout(() => {
-            router.push(router.query.link)
+            const link = router.query.link
+            router.push(typeof link==='string'?link:'/')
         }, 3000)
-    }, [router.query]);
+    }, [router]);
 
     return( 
     <div className="text-center">
