@@ -1,5 +1,6 @@
 import { BlogPostT } from 'my-custom-types';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import ReactMarkdown from 'react-markdown';
@@ -15,6 +16,7 @@ export default function PostEditor({
 }) {
 
     //todo: if slug don't exist redirect
+    const router = useRouter();
     const [ slugState, setSlugState ] = useState('')
     const [ preview, setPreview ] = useState(false);
     const { register, handleSubmit, reset, watch } = useForm({ defaultValues:content, mode: 'onChange' });
@@ -26,10 +28,13 @@ export default function PostEditor({
         }
     }, [content, reset]);
 
+    //
     const updatePost = async ( updatedContent:BlogPostT ) => {
         if (updatedContent.title){
-            setSlugState(convertToSlug(updatedContent.title))
+            const newSlug = convertToSlug(updatedContent.title)
+            setSlugState(newSlug)
             await onSave(updatedContent);
+            router.push(`/editpost/${newSlug}`)
             alert('Changes saved!');
         } else {
             alert('Title required')

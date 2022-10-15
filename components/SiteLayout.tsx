@@ -1,6 +1,5 @@
 import { ReactNode, useEffect, useContext, useRef } from 'react'
 import Navbar from './Navbar'
-import Footer from './Footer'
 import PageLayout from './PageLayout'
 import { ThemeContext } from "./ThemeContext";
 

@@ -5,14 +5,14 @@ import PostEditor from "../../components/PostEditor";
 import { useEffect, useState } from "react";
 import CommentEditor from "../../components/Comments";
 import { BlogPostT } from "my-custom-types";
-import { env } from "process";
 
 
 export default function BlogPostEdit() {
     
     const { data: session } = useSession()
 
-    const [postContent, setPostContent] = useState({});
+    const [ postContent, setPostContent ] = useState({});
+    const [ titleChanged, setTitleChanged ] = useState(false);
 
     const getPost = async (postslug:string) => {
         const res = await fetch(
@@ -70,13 +70,17 @@ export default function BlogPostEdit() {
             <p className="text-center mt-5">(Admin role required for edit)</p>
         </>
     } else if (session.user.role === 'admin') {
-        return (<>
-            <LoginBtn />
-            <br/>
-            <p className="text-xl font-bold"> Editing published post ... {} </p>
-            <br/>
-            <PostEditor content={postContent} onSave={savePost} onDelete={deletePost}/>
-        </>)
+        return (
+            Object.keys(postContent).length !== 0 ?
+            <>
+                <LoginBtn />
+                <br/>
+                <p className="text-xl font-bold"> Editing published post ... {} </p>
+                <br/>
+                <PostEditor content={postContent} onSave={savePost} onDelete={deletePost}/>
+            </>
+            : <p> post doesn&apos;t exist </p>
+        )
     } else {
         const { postslug } = router.query
         router.push(`/redirect?link=/blog/${postslug}`)

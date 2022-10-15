@@ -78,7 +78,7 @@ export default function CommentManager(
     },[content, reset])
 
     
-    const oldComments = content.comments?.map((c,i) => {
+    const oldComments = content?.comments?.map((c,i) => {
         if (c.username === session?.user.name) {
             return (<p key={i}>
                 {c.username}: {c.comment} 

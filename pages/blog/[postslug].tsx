@@ -75,17 +75,20 @@ export default function BlogPost() {
         console.log('deletedComment!', res)
     }
 
-    return (<>
-        <LoginBtn />
-        <br/>
-        <PostViewer content={postContent} />
-        <br/>
-        <CommentManager 
-            content={commentContent} 
-            setContent={setCommentContent} 
-            onSave={saveComment}
-            onDelete={deleteComment}/>
-        <br/>
-        <Link href={`/editpost/${postContent.slug}`}>[admin edit]</Link>
-    </>)
+    return (Object.keys(postContent).length !== 0 ?
+        <>
+            <LoginBtn />
+            <br/>
+            <PostViewer content={postContent} />
+            <br/>
+            <CommentManager 
+                content={commentContent} 
+                setContent={setCommentContent} 
+                onSave={saveComment}
+                onDelete={deleteComment}/>
+            <br/>
+            <Link href={`/editpost/${postContent.slug}`}>[admin edit]</Link>
+        </>
+        : <p> post doesn&apos;t exist </p>
+    )
 }

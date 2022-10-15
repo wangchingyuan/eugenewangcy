@@ -2,6 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { connectToDatabase } from '../../util/mongodb'
 import { convertToSlug } from '../../util/toSlug'
+import { ObjectId } from 'mongodb'
 
 export default async function handler(
 	req: NextApiRequest, 
@@ -31,20 +32,36 @@ export default async function handler(
 
 	// Save edits of existing post
 	} else if (req.method === 'PUT') {
-		console.log('PUTTTIN', req.body)
+		console.log('PUTTTIN post', req.body)
 		// selected: to avoid changing the _id
-		const selected = (({title, subtitle, body, references, slug}) => (
-			{title, subtitle, body, references, slug}))(req.body)
+		const selected = (({title, subtitle, body, references}) => (
+			{title, subtitle, body, references}))(req.body)
+		const newSlug = convertToSlug(req.body.title) // recompute slug
+		const oldSlug = req.body.slug
+		
+		if (newSlug !== oldSlug) { // if title was modified
+			console.log('new old slug different!', newSlug, oldSlug)
+			// modify comments doc's associated slug
+			const result = await db.collection('blogPostComments')
+			.updateOne(
+				{ slug: oldSlug },
+				{ $set: {slug : newSlug} }, 
+				{ upsert: false },
+			);
+			console.log('rename comm doc slug res:', result)
+		}
+		// convert tags string to list
 		const tagsList = req.body.tags.replace(/ /g, '').split(',').filter((v:string)=>v)
 		const partsToUpdate = {
 			...selected, 
+			...{slug: newSlug},
 			...{tags: tagsList},
 			...{edited: new Date()}
 		}
 		console.log('API called; putting..', partsToUpdate);
 		const result = await db.collection('blogPosts')
 			.updateOne(
-				{ _id: req.body._id },
+				{ _id: new ObjectId(req.body._id) },
 				{ $set : partsToUpdate }, 
 				{ upsert: false },
 			);
@@ -65,12 +82,13 @@ export default async function handler(
 		const { skip, slug } = req.query
 		console.log('API called; getting... param skip:', skip, 'postslug:', slug);
 		if (!slug) {
-			const data = await db.collection('blogPosts').find({}).sort( { created: -1 } )
+			const result = await db.collection('blogPosts').find({}).sort( { created: -1 } )
 				.skip(parseInt(typeof skip==='string'? skip:'0')).limit(10).toArray();
-			res.json(data)
+			res.json(result)
 		} else {
-			const data = await db.collection('blogPosts').find( { slug: slug } ).toArray(); 
-			res.json(data)
+			const result = await db.collection('blogPosts').find( { slug: slug } ).toArray();
+			console.log('get post res:', result) 
+			res.json(result)
 		}
 	}
 }

@@ -54,8 +54,9 @@ export default async function handler(
 	} else {
 		const { slug } = req.query
 		console.log('Comm. API called; GET for post:', slug)
-		const data = await db.collection('blogPostComments').find( { slug: slug } ).toArray(); 
-		res.json(data)
+		const result = await db.collection('blogPostComments').find( { slug: slug } ).toArray();
+		console.log('get comments res:', result)
+		res.json(result)
 	}
 }
 
