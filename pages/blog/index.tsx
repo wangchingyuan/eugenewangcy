@@ -1,14 +1,14 @@
 
 import PostTile from "../../components/PostTile";
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import usePosts from "../../hooks/usePostHook"
 import Link from "next/link";
 
 
 export default function Blog({ isConnected } : { isConnected : boolean}) {
     
-    const [query, setQuery] = useState('')
-    const [pageNum, setPageNum] = useState(1)
+    const [ query, setQuery ] = useState('')
+    const [ pageNum, setPageNum ] = useState(1)
     const { posts, isLoading, isError, error, hasNextPage } = usePosts(pageNum)
 
     const intObserver = useRef<IntersectionObserver | null>(null);
@@ -24,15 +24,19 @@ export default function Blog({ isConnected } : { isConnected : boolean}) {
         })
 
         if (post) intObserver.current.observe(post)
-    }, [isLoading, hasNextPage]);// as React.MutableRefObject<HTMLInputElement>;
-
-    if (isError) return (<p><>error: {error.message}</></p>)
+    }, [isLoading, hasNextPage]);
 
     const handleQuery = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('handleQuery callled')
+        console.log('handleQuery callled value:', e.target.value)
         setQuery(e.target.value)
-        setPageNum((prevNum) => (prevNum += 1))
+       //setPageNum((prevNum) => (prevNum += 1))
     }
+
+    useEffect(()=>{
+        // todo
+        // search bar
+        // update post list aka content based on query
+    },[query])
 
     const content = posts.map((p, i) => {
         if (posts.length === i + 1) {
@@ -42,12 +46,15 @@ export default function Blog({ isConnected } : { isConnected : boolean}) {
         return <PostTile key={p.title} post={p} />
     })
 
+    if (isError) return (<p><>error: {error.message}</></p>)
+
     return ( 
         <div className="grid grid-rows-[auto_auto] p-10 gap-10">
             
             <div className="flex justify-between">
-                <input type="text" onChange={handleQuery} placeholder="Search"/>
-                <Link href="/writepost">write post</Link>
+                <input className="rounded-sm" type="text" 
+                    onChange={handleQuery} placeholder="!Incomplete!"/>
+                <Link href="/writepost">[write post]</Link>
             </div>
 
             {/* {isConnected && <p>mongodb connected</p>} */}

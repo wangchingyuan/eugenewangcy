@@ -5,7 +5,10 @@ import GithubProvider from "next-auth/providers/github"
 export const authOptions: NextAuthOptions = {
     callbacks: {
         session({ session, token, user }) {
-            session.user.role = session.user.email === process.env.GITHUB_EMAIL
+            session.user.role = (
+                session.user.email === process.env.GITHUB_EMAIL ||
+                session.user.email === process.env.GITHUB_EMAIL2
+            )
                 ? 'admin'
                 : 'visitor'
             return session // The return type will match the one returned in `useSession()`

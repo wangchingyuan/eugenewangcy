@@ -86,6 +86,6 @@ export default function BlogPost() {
             onSave={saveComment}
             onDelete={deleteComment}/>
         <br/>
-        <Link href={`/editpost/${postContent.slug}`}>admin edit</Link>
+        <Link href={`/editpost/${postContent.slug}`}>[admin edit]</Link>
     </>)
 }

@@ -5,6 +5,7 @@ import PostEditor from "../../components/PostEditor";
 import { useEffect, useState } from "react";
 import CommentEditor from "../../components/Comments";
 import { BlogPostT } from "my-custom-types";
+import { env } from "process";
 
 
 export default function BlogPostEdit() {
@@ -64,12 +65,16 @@ export default function BlogPostEdit() {
     }
     
     if (!session) {
-        return <LoginBtn />
+        return <>
+            <LoginBtn />
+            <p className="text-center mt-5">(Admin role required for edit)</p>
+        </>
     } else if (session.user.role === 'admin') {
         return (<>
             <LoginBtn />
             <br/>
-            <h1> editing published post {} </h1>
+            <p className="text-xl font-bold"> Editing published post ... {} </p>
+            <br/>
             <PostEditor content={postContent} onSave={savePost} onDelete={deletePost}/>
         </>)
     } else {

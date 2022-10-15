@@ -46,6 +46,8 @@ export default function CommentManager(
                 }
             })
             onSave(newComment);
+        } else {
+            alert('Sign in to comment')
         }
     }
     const deleteComment = async (
@@ -88,13 +90,14 @@ export default function CommentManager(
         return <p key={i}>{c.username}: {c.comment}</p>
     })
     return (<>
-        <p className="text-center">Comments:</p>
+        <br/>
+        <p className="text-center text-xl font-semibold">Comments:</p>
         {oldComments}
         <form onSubmit={handleSubmit(updateComment)}>
             <div className="flex flex-col">
                 <textarea {...register('comment')}></textarea>
                 <button type="submit" className="btn-green">
-                    Save Comment
+                    [Save Comment]
                 </button>
             </div>
 

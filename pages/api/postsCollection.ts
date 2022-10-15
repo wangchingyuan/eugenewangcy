@@ -22,14 +22,16 @@ export default async function handler(
 		}
 		console.log('API called; posting..', newPost)
 		const result1 = await db.collection('blogPosts').insertOne(newPost)
-		console.log('inserted', result1)
+		console.log('inserted post:', result1)
 
 		const emptyComment = {slug:slug, comments:[]}
 		const result2 = await db.collection('blogPostComments').insertOne(emptyComment)
-		//res.status(200)
+		console.log('inserted comment doc', result2)
+		res.status(200).send({result:'success'})
 
 	// Save edits of existing post
 	} else if (req.method === 'PUT') {
+		console.log('PUTTTIN', req.body)
 		// selected: to avoid changing the _id
 		const selected = (({title, subtitle, body, references, slug}) => (
 			{title, subtitle, body, references, slug}))(req.body)
@@ -42,7 +44,7 @@ export default async function handler(
 		console.log('API called; putting..', partsToUpdate);
 		const result = await db.collection('blogPosts')
 			.updateOne(
-				{ title: req.body.title },
+				{ _id: req.body._id },
 				{ $set : partsToUpdate }, 
 				{ upsert: false },
 			);
@@ -63,12 +65,13 @@ export default async function handler(
 		const { skip, slug } = req.query
 		console.log('API called; getting... param skip:', skip, 'postslug:', slug);
 		if (!slug) {
-			const data = await db.collection('blogPosts').find({})
+			const data = await db.collection('blogPosts').find({}).sort( { created: -1 } )
 				.skip(parseInt(typeof skip==='string'? skip:'0')).limit(10).toArray();
 			res.json(data)
+		} else {
+			const data = await db.collection('blogPosts').find( { slug: slug } ).toArray(); 
+			res.json(data)
 		}
-		const data = await db.collection('blogPosts').find( { slug: slug } ).toArray(); 
-		res.json(data)
 	}
 }
 

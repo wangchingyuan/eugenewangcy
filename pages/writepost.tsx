@@ -1,13 +1,17 @@
+import { BlogPostT } from "my-custom-types";
 import { useSession, signIn, signOut } from "next-auth/react"
+import Router, { useRouter } from "next/router";
 import LoginBtn from "../components/LoginBtn"
 import PostEditor from "../components/PostEditor";
+import { convertToSlug } from "../util/toSlug";
 
 export default function WritePost() {
     const { data: session } = useSession()
+    const router = useRouter();
     if (!session) return <LoginBtn />
 
     // submit handler for react-hook-form
-    const savePost = async (post:{}) => {
+    const savePost = async (post:BlogPostT) => {
         console.log('saving post...')
         const res = await fetch('/api/postsCollection', {
             method: 'POST',
@@ -17,11 +21,15 @@ export default function WritePost() {
             body: JSON.stringify(post),
         })
         console.log('savedPost!', res)
+        router.push(`/blog/${convertToSlug(post.title)}`)
     }
 
     return <>
         <LoginBtn />
-        <PostEditor content={{}} onSave={savePost}/>
+        <br/>
+        <p className="text-xl font-bold"> Writing a new post ... {} </p>
+        <br/>
+        <PostEditor content={{}} onSave={savePost} onDelete={()=>{router.push('/blog')}}/>
     </>   
 }
 

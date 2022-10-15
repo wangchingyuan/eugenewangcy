@@ -13,7 +13,7 @@ export default function Component() {
   }
   return (<div className="text-center">
     <button onClick={() => signIn()}>
-      Sign in to comment / edit
+      <u>Sign in</u> to comment or edit.
     </button>
   </div>
     

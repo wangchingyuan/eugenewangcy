@@ -1,9 +1,14 @@
-import type { ReactElement } from 'react'
+import Link from 'next/link'
 
-export default function NavbarIcon({ children }:{children:ReactElement}) {
+export default function NavbarIcon(
+    { name, url, onClick }:
+    { name?:string, url?:string, onClick?:()=>void }
+) {
     return (
-    <div className="navbar-icon">
-        { children }
-    </div>
+        <Link href={url || ''}>
+            <div className="p-3">
+                <button onClick={onClick}>{name}</button>
+            </div>
+        </Link>
     )
 }

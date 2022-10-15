@@ -30,45 +30,63 @@ export default function PostEditor({
         if (updatedContent.title){
             setSlugState(convertToSlug(updatedContent.title))
             await onSave(updatedContent);
+            alert('Changes saved!');
+        } else {
+            alert('Title required')
         }
     }
 
+    const [ confirmed, setConfirmed ] = useState(false)
+    const onDeleteConfirm = async () => {
+        if (confirmed) onDelete();
+    }
+
+    const textareaCN ='border border-black p-1'
+
+
     return (<>
         <form onSubmit={handleSubmit(updatePost)}>
-            {preview && (<div className="card">
-                <ReactMarkdown>{watch('title') || ''}</ReactMarkdown>
+            {preview && (<div className="prose">
+                <p className='text-4xl font-bold'>{watch('title') || ''}</p>
                 <ReactMarkdown>{watch('body') || ''}</ReactMarkdown>
+                <br/>
             </div>)}
     
             {!preview && ( <div className="flex flex-col">
-                <p>title:</p>
-                <textarea {...register('title')}></textarea>
+                <p>Title:</p>
+                <textarea className={textareaCN} {...register('title')}></textarea>
+                
+                <p >URL Slug: {convertToSlug(watch('title'))}</p>
                 <br/>
-                <p>slug: {convertToSlug(watch('title'))}</p>
+                <p>Subtitle:</p>
+                <textarea className={textareaCN} {...register('subtitle')}></textarea>
                 <br/>
-                <p>subtitle:</p>
-                <textarea {...register('subtitle')}></textarea>
+                <p>Body:</p>
+                <textarea className={textareaCN} {...register('body')}></textarea>
                 <br/>
-                <p>body:</p>
-                <textarea {...register('body')}></textarea>
+                <p>Tags: (seperate with commas)</p>
+                <textarea className={textareaCN} {...register('tags')}></textarea>
                 <br/>
-                <p>tags: (seperate with commas)</p>
-                <textarea {...register('tags')}></textarea>
+                <p>References:</p>
+                <textarea className={textareaCN} {...register('references')}></textarea>
                 <br/>
-                <p>references:</p>
-                <textarea {...register('references')}></textarea>
-                <button type="submit" className="btn-green">
-                    Save Changes
+                <button type="submit" className="">
+                    [Save Changes]
                 </button>
             </div>)}
 
         </form>
         <div className="flex justify-between">
-            <button onClick={() => setPreview(!preview)}>{preview ? 'Edit' : 'Preview'}</button>
-            <button><Link href={`/blog/${slugState}`}>Live View (go back)</Link></button>
+            <button onClick={() => setPreview(!preview)}>{preview ? '[Edit Post]' : '[Preview]'}</button>
+            <button><Link href={`/blog/${slugState}`}>[Live View (go back)]</Link></button>
         </div>
-        <div className="absolute bottom-0">
-            <button onClick={()=>onDelete()}>delete post</button>
+        <br/>
+        <div className="flex justify-start absolute bottom-0">
+            <label>
+                <input type="checkbox" onClick={()=>{setConfirmed(prev=>!prev)}}/>
+                delete?
+            </label>
+            <button onClick={()=>onDeleteConfirm()}>[CONFIRM]</button>
         </div>
     </>);
   }
