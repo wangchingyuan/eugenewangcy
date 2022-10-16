@@ -51,7 +51,7 @@ export default function Blog({ isConnected } : { isConnected : boolean}) {
     return ( 
         <div className="grid grid-rows-[auto_auto] p-10 gap-10">
             
-            <div className="flex justify-between">
+            <div className="flex justify-between w-4/5 m-auto">
                 <input className="rounded-sm" type="text" 
                     onChange={handleQuery} placeholder="!Incomplete!"/>
                 <Link href="/writepost">[write post]</Link>

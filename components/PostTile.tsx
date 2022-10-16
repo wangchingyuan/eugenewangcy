@@ -13,14 +13,15 @@ const Component = React.forwardRef( ({ post }:{ post: BlogPostT}, ref) => {
 
     let tileClassName = classNameByTheme(
         themeState,
-        'p-2 rounded-md bg-zinc-600',
-        'p-2 rounded-md bg-gray-400',
-        'p-2 rounded-md bg-white'
+        'p-2 rounded-lg w-4/5 m-auto border border-spacing-1 border-white', //bg-zinc-600 
+        'p-2 rounded-lg w-4/5 m-auto border border-spacing-1 border-black', //bg-gray-400
+        'p-2 rounded-lg w-4/5 m-auto border border-spacing-1 border-black' //bg-white 
     )
 
     const body = (<Link href={`/blog/${post.slug}`}><a>
         <p className="text-2xl font-semibold">{post.title}</p>
         <p className="text-sm font-light">{post.subtitle}</p>
+        <p className='text-xs font-light'>{post.created?.slice(0,10)}</p>
     </a></Link>)
     
     const postTile = ref 

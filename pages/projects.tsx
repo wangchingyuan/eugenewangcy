@@ -1,10 +1,23 @@
 import Link from "next/link";
+import { useContext } from "react";
+import { ThemeContext } from "../components/ThemeContext";
+import { classNameByTheme } from "../util/themedClassName";
 
 export default function Projects() {
-    return (
-    <div className="grid grid-rows-[auto_auto] p-10 gap-10">
 
-        <div className="border-spacing-1 border-green-600">
+    const {themeState} = useContext(ThemeContext);
+
+    let projTileClassName = classNameByTheme(
+        themeState,
+        'rounded-lg border border-spacing-1 p-1 m-auto w-2/3 border-white', //bg-zinc-600 
+        'rounded-lg border border-spacing-1 p-1 m-auto w-2/3 border-black', //bg-gray-400
+        'rounded-lg border border-spacing-1 p-1 m-auto w-2/3 border-black' //bg-white 
+    )
+
+    return (
+    <div className="grid grid-rows-[auto_auto_auto] p-10 gap-12">
+
+        <div className={projTileClassName}>
             <Link href="https://www.eugenewangcy.com">
                 eugenewangcy.com
             </Link>
@@ -14,7 +27,7 @@ export default function Projects() {
             <p>Went live Oct 2022. Further improvements coming.&#128295;</p>
         </div>
 
-        <div className="border-spacing-1 border-green-600">
+        <div className={projTileClassName}>
             <Link href="https://www.relivemytrades.com">
                 relivemytrades.com
             </Link>
@@ -24,7 +37,7 @@ export default function Projects() {
             <p>TO BE STARTED</p>
             
         </div>
-        <div className="border-spacing-1">
+        <div className={projTileClassName}>
             <Link href="https://www.youneedarock.com">
                 youneedarock.com
             </Link>
@@ -32,9 +45,6 @@ export default function Projects() {
             <a href="https://docs.google.com/document/d/19OJOOXG1ScEMN1eKNUyQ1Ut8ySJsyz3f0SeGdBLZkHI/edit">
                 &#128279; See Design Doc</a>
             <h1>TO BE STARTED</h1>
-            {/* <h1>
-                hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! hello projects! 
-            </h1> */}
         </div>
     </div>
 

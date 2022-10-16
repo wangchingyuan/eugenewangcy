@@ -10,7 +10,7 @@ export default function Navbar() {
   return (
     <div className="bg-gray-300 p-1">
       <div className="flex justify-evenly">
-        <NavbarIcon name={'Home'} url={'/'}/>
+        <NavbarIcon name={'About'} url={'/'}/>
         <NavbarIcon name={'Blog'} url={'/blog'}/>
         <NavbarIcon name={'Projects'} url={'/projects'}/>
         <NavbarIcon name={'Contact'} url={'/contact'}/>
