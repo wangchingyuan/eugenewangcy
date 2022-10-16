@@ -18,9 +18,9 @@ export default function PostViewer({ content } : { content : BlogPostT}) {
         'prose border border-black'
     )
 
-    return (<>
-        <p className='text-4xl font-bold'>{content.title}</p>
-        <p className='text-gray-500'>SUBTITLE: {content.subtitle}</p>
+    return (<div className='p-5'>
+        <p className='text-4xl font-bold mb-2'>{content.title}</p>
+        <p className='text-gray-500 mb-1'>{content.subtitle}</p>
         <p className='text-gray-500'>{content.created}</p>
         <br/>
         <div className={bodyCN}>
@@ -29,9 +29,9 @@ export default function PostViewer({ content } : { content : BlogPostT}) {
             </ReactMarkdown>
         </div>
         <br/>
-        <p>TAGS: {content.tags}</p>
-        <p>REFEENCES: {content.references}</p>
+        <p>Tags: {content.tags}</p>
+        <p>References: {content.references}</p>
         
-        <p>EDITED: {content.edited}</p>
-    </>);
+        <p>Edited: {content.edited}</p>
+    </div>);
   }

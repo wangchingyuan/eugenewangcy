@@ -10,16 +10,16 @@ export default function About() {
 
   const mainDivClassName = classNameByTheme(
       themeState,
-      'rounded-lg border border-white pt-3 pb-3 w-2/3 m-auto', 
-      'rounded-lg border border-black pt-3 pb-3 w-2/3 m-auto', 
-      'rounded-lg border border-black pt-3 pb-3 w-2/3 m-auto' 
+      'rounded-lg border border-white mt-5 pt-3 pb-3 w-2/3 ml-auto mr-auto', 
+      'rounded-lg border border-black mt-5 pt-3 pb-3 w-2/3 ml-auto mr-auto', 
+      'rounded-lg border border-black mt-5 pt-3 pb-3 w-2/3 ml-auto mr-auto' 
   )
 
   const pClassName = 'text-center pt-1 pb-1 m-auto'
 
   return (
     <div className={mainDivClassName}>
-      <p className='text-left, pt-1 pb-1 ml-5'>
+      <p className='text-left, pt-1 pb-1 ml-6'>
         Dear visitor,</p>
         <br/>
       <p className={pClassName}>
@@ -35,11 +35,11 @@ export default function About() {
       <p className={pClassName}>
         My goal is to find a new job in Cali and move there in 2023.</p>
       <p className={pClassName}>
-        Feel free <u><Link href='/contact'>add my socials</Link></u> or drop any advice!! &#129309;</p>
+        Feel free add <u><Link href='/contact'>my socials</Link></u> or drop any advice!! &#129309;</p>
       
       <br/><br/><br/>
       <p className={pClassName}>
-        Went live on <u><Link href='/contact'>Octotor 15th 2022.</Link></u><br/>
+        Went live on Octotor 15th 2022.<br/>
         More changes coming!</p>
     </div>
 

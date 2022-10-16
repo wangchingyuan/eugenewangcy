@@ -19,7 +19,7 @@ export default function Projects() {
 
         <div className={projTileClassName}>
             <Link href="https://www.eugenewangcy.com">
-                eugenewangcy.com
+                <p className='font-bold'>eugenewangcy.com</p>
             </Link>
             <p>&quot;More than just a personal site.&quot;</p>
             <a href="https://docs.google.com/document/d/17ARQfITjiHuhjzRYNAV12xecAJb2ZfKuOMymTYhaD8Q/edit">
@@ -29,7 +29,7 @@ export default function Projects() {
 
         <div className={projTileClassName}>
             <Link href="https://www.relivemytrades.com">
-                relivemytrades.com
+                <p className='font-bold'>relivemytrades.com</p>
             </Link>
             <p>&quot;So you don&apos;t believe in efficient market hypothesis?&quot;</p>
             <a href="https://docs.google.com/document/d/1QGz1JDxxNWvPa-z1w-F24XJanx3jWtuWoXAgHFuDaAs/edit">
@@ -39,7 +39,7 @@ export default function Projects() {
         </div>
         <div className={projTileClassName}>
             <Link href="https://www.youneedarock.com">
-                youneedarock.com
+                <p className='font-bold'>youneedarock.com</p>
             </Link>
             <p>&quot;Nice looking e-commerce site where you can buy a rock.&quot;</p>
             <a href="https://docs.google.com/document/d/19OJOOXG1ScEMN1eKNUyQ1Ut8ySJsyz3f0SeGdBLZkHI/edit">
