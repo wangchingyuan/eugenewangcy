@@ -22,15 +22,37 @@ export default function WritePost() {
         })
         console.log('savedPost!', res)
         router.push(`/blog/${convertToSlug(post.title)}`)
+        return 'isAdmin'
     }
 
-    return <>
-        <LoginBtn />
-        <br/>
-        <p className="text-xl font-bold"> Writing a new post ... {} </p>
-        <br/>
-        <PostEditor content={{}} onSave={savePost} onDelete={()=>{router.push('/blog')}}/>
-    </>   
+    const nonAdminAlert = async (post:BlogPostT) => {
+        alert('Only admin can write new post')
+        return 'notAdmin'
+    }
+    
+
+    if (!session) {
+        return <>
+            <LoginBtn />
+        </>
+    } else if (session.user.role === 'admin') {
+        return (<>
+            <LoginBtn />
+            <br/>
+            <p className="text-xl font-bold"> Writing a new post ... {} </p>
+            <br/>
+            <PostEditor content={{}} onSave={savePost} onDelete={()=>{router.push('/blog')}}/>
+        </> )
+    } else {
+        return (<>
+            <LoginBtn />
+            <br/>
+            <p> Admin role required to save changes </p>
+            <p className="text-xl font-bold"> Writing a new post ... {} </p>
+            <br/>
+            <PostEditor content={{}} onSave={nonAdminAlert} onDelete={()=>{router.push('/blog')}}/>
+        </> )
+    }
 }
 
 

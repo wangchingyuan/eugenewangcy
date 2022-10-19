@@ -6,7 +6,7 @@ export default function Component() {
   if (session) {
     return (
       <div className="flex justify-between">
-        Signed in as <p className="font-bold">{session.user.name}</p> with {session.user.role} role
+        Signed in as {session.user.name} with {session.user.role} role
         <button onClick={() => signOut()}>Sign out</button>
       </div>
     )

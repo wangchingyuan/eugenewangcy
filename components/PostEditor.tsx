@@ -11,7 +11,7 @@ export default function PostEditor({
     content, onSave, onDelete 
 } : {
     content: BlogPostT, 
-    onSave: (param:Object)=>void,
+    onSave: (param:Object)=>Promise<string>,
     onDelete: ()=>void,
 }) {
 
@@ -33,9 +33,11 @@ export default function PostEditor({
         if (updatedContent.title){
             const newSlug = convertToSlug(updatedContent.title)
             setSlugState(newSlug)
-            await onSave(updatedContent);
-            router.push(`/editpost/${newSlug}`)
-            alert('Changes saved!');
+            const res = await onSave(updatedContent);
+            if (res === 'isAdmin') {
+                router.push(`/editpost/${newSlug}`)
+                alert('Changes saved!');
+            }
         } else {
             alert('Title required')
         }

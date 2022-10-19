@@ -18,7 +18,7 @@ export default function Projects() {
     <div className="grid grid-rows-[auto_auto_auto] p-10 gap-12">
 
         <div className={projTileClassName}>
-            <Link href="https://www.eugenewangcy.com">
+            <Link href="/">
                 <p className='font-bold'>eugenewangcy.com</p>
             </Link>
             <p>&quot;More than just a personal site.&quot;</p>

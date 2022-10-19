@@ -49,6 +49,7 @@ export default function BlogPostEdit() {
             body: JSON.stringify(post),
         })
         console.log('savedPost!', res)
+        return 'isAdmin'
     }
 
     //callback for delete button
