@@ -10,18 +10,18 @@ export default function PostViewer({ content } : { content : BlogPostT}) {
     const {themeState} = useContext(ThemeContext);
     const bodyCN = classNameByTheme(
         themeState,
-        'prose border border-white text-white \
+        'prose text-white \
             prose-headings:text-white prose-p:text-white \
             prose-a:text-white prose-strong:text-white \
             prose-em:text-white prose-code:text-white',
-        'prose border border-black',
-        'prose border border-black'
+        'prose ',
+        'prose '
     )
 
     return (<div className='p-5'>
         <p className='text-4xl font-bold mb-2'>{content.title}</p>
         <p className='text-gray-500 mb-1'>{content.subtitle}</p>
-        <p className='text-gray-500'>{content.created}</p>
+        <p className='text-gray-500'>{content.created?.slice(0,10)}</p>
         <br/>
         <div className={bodyCN}>
             <ReactMarkdown>
@@ -32,6 +32,6 @@ export default function PostViewer({ content } : { content : BlogPostT}) {
         <p>Tags: {content.tags}</p>
         <p>References: {content.references}</p>
         
-        <p>Edited: {content.edited}</p>
+        <p>Edited: {content.edited?.slice(0,10)}</p>
     </div>);
   }

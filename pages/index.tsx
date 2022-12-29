@@ -33,7 +33,7 @@ export default function About() {
 
       <br/><br/>
       <p className={pClassName}>
-        My goal is to find a new job in Cali and move there in 2023.</p>
+        My goal is to move to Cali in the next 1-2 years.</p>
       <p className={pClassName}>
         Feel free add <u><Link href='/contact'>my socials</Link></u> or drop any advice!! &#129309;</p>
       
