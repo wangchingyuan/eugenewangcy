@@ -76,19 +76,27 @@ export default function BlogPost() {
     }
 
     return (Object.keys(postContent).length !== 0 ?
-        <>
+        <div className='m-auto'>
+            <div className='grid grid-cols-[1fr_minmax(500px,_900px)_1fr]'>
+                <div/>
+                <PostViewer content={postContent} />
+                <div/>
+            </div>
+            <br/>
+            <div className='grid grid-cols-[1fr_minmax(500px,_900px)_1fr]'>
+                <div/>
+                <CommentManager 
+                    content={commentContent} 
+                    setContent={setCommentContent} 
+                    onSave={saveComment}
+                    onDelete={deleteComment}/>
+                <div/>
+            </div>
+            <br/>
             <LoginBtn />
             <br/>
-            <PostViewer content={postContent} />
-            <br/>
-            <CommentManager 
-                content={commentContent} 
-                setContent={setCommentContent} 
-                onSave={saveComment}
-                onDelete={deleteComment}/>
-            <br/>
             <Link href={`/editpost/${postContent.slug}`}>[admin edit]</Link>
-        </>
+        </div>
         : <p> post doesn&apos;t exist </p>
     )
 }

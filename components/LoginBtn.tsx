@@ -11,7 +11,7 @@ export default function Component() {
       </div>
     )
   }
-  return (<div className="text-center">
+  return (<div className="text-left">
     <button onClick={() => signIn()}>
       <u>Sign in</u> to comment or edit.
     </button>

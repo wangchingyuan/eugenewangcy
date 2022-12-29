@@ -80,27 +80,28 @@ export default function CommentManager(
     
     const oldComments = content?.comments?.map((c,i) => {
         if (c.username === session?.user.name) {
-            return (<p key={i}>
+            return (<p key={i} className='prose m-auto'>
                 {c.username}: {c.comment} 
                 <button onClick={()=>deleteComment(content.slug, c, i)}>
                     [deleteMyComment]
                 </button>
             </p>)
         }
-        return <p key={i}>{c.username}: {c.comment}</p>
+        return <p key={i} className='prose m-auto'>{c.username}: {c.comment}</p>
     })
-    return (<>
-        <br/>
-        <p className="text-center text-xl font-semibold">Comments:</p>
+    return (<div>
+        <p className="prose m-auto text-center text-xl font-semibold">Comments:</p>
         {oldComments}
-        <form onSubmit={handleSubmit(updateComment)}>
-            <div className="flex flex-col">
-                <textarea {...register('comment')}></textarea>
-                <button type="submit" className="btn-green">
-                    [Save Comment]
-                </button>
+        <div className='prose m-auto'>
+        <form onSubmit={handleSubmit(updateComment) }>
+            <div className='flex flex-col'>
+            <textarea {...register('comment')}></textarea>
+            <button type="submit" className="btn-green">
+                [Save Comment]
+            </button>
             </div>
-
         </form>
-    </>);
+        </div>
+        
+    </div>);
   }
