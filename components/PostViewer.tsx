@@ -8,31 +8,43 @@ export default function PostViewer({ content } : { content : BlogPostT}) {
 
     //todo: if slug don't exist redirect
     const {themeState} = useContext(ThemeContext);
-    const bodyCN = classNameByTheme(
+    const primaryCN = classNameByTheme(
         themeState,
-        'prose w-4/5 m-auto text-white \
-            prose-headings:text-white prose-p:text-white \
+        'prose m-auto text-white \
+            prose-headings:text-gray-1 prose-p:text-gray-1 \
             prose-a:text-white prose-strong:text-white \
-            prose-em:text-white prose-code:text-white',
-        'prose w-4/5 m-auto',
-        'prose w-4/5 m-auto'
+            prose-em:text-white prose-code:text-white text-white',
+        'prose m-auto \
+            prose-headings:text-black prose-p:text-black \
+            prose-a:text-black prose-strong:text-black \
+            prose-em:text-black prose-code:text-black text-black',
+        'prose m-auto \
+            prose-headings:text-black prose-p:text-black \
+            prose-a:text-black prose-strong:text-black \
+            prose-em:text-black prose-code:text-black text-black',
+    )
+    const secondaryCN = classNameByTheme(
+        themeState,
+        'prose m-auto prose-p:text-gray-100 prose-p:font-bold',
+        'prose m-auto prose-p:text-gray-500 prose-p:font-bold',
+        'prose m-auto prose-p:text-gray-9 prose-p:font-bold'
     )
 
     return (
         <div>
-            <div ><p className='prose m-auto text-4xl font-bold text-center mb-4'>{content.title}</p></div>
-            <div><p className='prose m-auto text-gray-500 mb-1'>{content.subtitle}</p></div>
-            <div><p className='prose m-auto text-gray-500'>{content.created?.slice(0,10)}</p></div>
+            <div className={primaryCN}><p className='text-4xl font-bold text-center mb-4'>{content.title}</p></div>
+            <div className={secondaryCN}><p>{content.subtitle}</p></div>
+            <div className={secondaryCN}><p>{content.created?.slice(0,10)}</p></div>
             <br/>
-            <div className={bodyCN}>
+            <div className={primaryCN}>
                 <ReactMarkdown>
                 {content.body || ""}
                 </ReactMarkdown>
             </div>
             <br/>
-            <p className='prose m-auto'>Tags: {content.tags}</p>
+            <div className={primaryCN}><p>Tags: {content.tags}</p></div>
             {content.references !== '' && <p className='prose m-auto'>References: {content.references}</p>}
             
-            <p className='prose m-auto'>Edited: {content.edited?.slice(0,10)}</p>
+            <div className={primaryCN}><p>Edited: {content.edited?.slice(0,10)}</p></div>
     </div>);
   }

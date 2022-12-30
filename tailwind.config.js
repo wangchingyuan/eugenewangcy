@@ -18,17 +18,20 @@ module.exports = {
       }),
       colors: {
         myDark: {
-          BG: "#1A1A1A",
+          NAV: "#3B3C3D",
+          BG: "#2E2F31",
           TXT: "#F7F6F6",
         },
-        myLight: {
+        myWarm: {
+          NAV: "#F8D2B1",
           BG: "#F7F6F6",
           TXT: "#1A1A1A",
         },
-        myWarm: {
-          BG: "#D4a373",
+        myLight: {
+          NAV: "#D2D5DA",
+          BG: "#FDF1E6",
           TXT: "#1A1A1A",
-        }
+        },
       }
     },
   },

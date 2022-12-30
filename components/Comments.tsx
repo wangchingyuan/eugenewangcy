@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useContext } from 'react';
 import { useSession } from "next-auth/react"
 import { PostCommentsT } from 'my-custom-types';
-
+import { classNameByTheme } from '../util/themedClassName';
+import { ThemeContext } from './ThemeContext';
 
 export default function CommentManager(
     { 
@@ -77,22 +79,30 @@ export default function CommentManager(
         reset({comment:''});
     },[content, reset])
 
+    const {themeState} = useContext(ThemeContext);
+    const secondaryCN = classNameByTheme(
+        themeState,
+        'prose m-auto prose-p:text-gray-100 ',
+        'prose m-auto prose-p:text-red-500 ',
+        'prose m-auto prose-p:text-gray-9 '
+    )
     
     const oldComments = content?.comments?.map((c,i) => {
         if (c.username === session?.user.name) {
-            return (<p key={i} className='prose m-auto'>
+            return (<p key={i} className={secondaryCN}>
                 {c.username}: {c.comment} 
                 <button onClick={()=>deleteComment(content.slug, c, i)}>
                     [deleteMyComment]
                 </button>
             </p>)
         }
-        return <p key={i} className='prose m-auto'>{c.username}: {c.comment}</p>
+        return <p key={i} className={secondaryCN}>{c.username}: {c.comment}</p>
     })
     return (<div>
-        <p className="prose m-auto text-center text-xl font-semibold">Comments:</p>
-        {oldComments}
-        <div className='prose m-auto'>
+        
+        <div className={secondaryCN}>
+            <p className="prose m-auto text-center text-xl font-semibold">Comments:</p>
+            {oldComments}
         <form onSubmit={handleSubmit(updateComment) }>
             <div className='flex flex-col'>
             <textarea {...register('comment')}></textarea>
